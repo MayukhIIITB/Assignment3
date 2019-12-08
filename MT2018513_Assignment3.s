@@ -1,262 +1,381 @@
-; Answer to Q1 : Implement a Neural N/W
-;By Mayukh Ghosh MT2018513
-;Sigmoid function value in S23
-;logic function output in R0
+;Implement a simple neural N/W     
+;Mayukh Ghosh	
+;MT2018513
+	 
+	 AREA     neural, CODE, READONLY
+     
+	 IMPORT displayMsgnot
+	 IMPORT displayMsgnand
+	 IMPORT displayMsgnor	 
+	 IMPORT displayMsgand
+	 IMPORT displayMsgor
+	 
+	 EXPORT __main
+     ENTRY 
+	 
+__main  FUNCTION	
 
 
-  	    AREA    appcode ,CODE,READONLY
-			
-        EXPORT __main
-		IMPORT printMsg	
-        ENTRY
+		VLDR.F32 S16,=0.5	;Threshold value
 		
-__main FUNCTION
+		
+GATE_AND MOV R6,#0
+
+NXTVECTORAND	BL VECTORS
+
+		ADD R6,R6,#1
+		
+		VLDR.F32 S2,=-0.1      ;w0
+		
+		VLDR.F32 S10,=0.2	   ;w1	
+		
+		VLDR.F32 S11,=0.2	   ;w2
+		
+		VLDR.F32 S13,=-0.2	   
+		
+		VMOV.F32 S12,R0;
+		
+		VMOV.F32 S15,R1;
+		
+		VMOV.F32 S14,R3;
+		VCVT.F32.S32 S12,S12		   ;x0 
+		
+		VCVT.F32.S32 S15,S15		   ;x1 
+		VCVT.F32.S32 S14,S14		   ;x2
+		
+		VLDR.F32 S17,=1		   
+		
+		VMUL.F32 S2,S2,S12	   
+		
+		VMUL.F32 S10,S10,S15   
+		
+		VMUL.F32 S11,S11,S14   
+		
+		VMUL.F32 S13,S13,S17   
+		
+		VADD.F32 S2,S2,S10	  
+		
+		VADD.F32 S11,S11,S13   
+		
+		VADD.F32 S6,S2,S11	   
+		
+		BL SIGMOID_NEURON 
+		
+		VCMP.F32 S8,S16	
+		
+		VMRS APSR_nzcv, FPSCR
+		
+		BLE LOGICZEROAND				
+		
+		B LOGICLOGICONEAND				
+		
+LOGICZEROAND	MOV R2,#0		
+
+		B NEXTAND
+LOGICLOGICONEAND	MOV R2,#1
+
+		B NEXTAND
+		
+NEXTAND	BL displayMsgand			
+
+		CMP R6,#4
+		
+		BLT NXTVECTORAND
+		
+		B GATE_OR
+
+
+GATE_OR MOV R6,#0
+
+NXTVECTOROR	BL VECTORS
+
+		ADD R6,R6,#1
+		
+		VLDR.F32 S2,=-0.1      ;w0
+		
+		VLDR.F32 S10,=0.7	   ;w1	
+		
+		VLDR.F32 S11,=0.7	   ;w2
+		
+		VLDR.F32 S13,=-0.1	   ; 
+		
+		VMOV.F32 S12,R0
+		
+		VMOV.F32 S15,R1
+		
+		VMOV.F32 S14,R3
+		
+		VCVT.F32.S32 S12,S12		   ;x0 
+		
+		VCVT.F32.S32 S15,S15		   ;x1 
+		
+		VCVT.F32.S32 S14,S14		   ;x2 
+		
+		VLDR.F32 S17,=1		   ;
+		
+		VMUL.F32 S2,S2,S12	   
+		
+		VMUL.F32 S10,S10,S15   
+		
+		VMUL.F32 S11,S11,S14   
+		
+		VMUL.F32 S13,S13,S17   
+		
+		VADD.F32 S2,S2,S10	   
+		
+		VADD.F32 S11,S11,S13   
+		
+		VADD.F32 S6,S2,S11	   
+		
+		BL SIGMOID_NEURON 
+		
+		VCMP.F32 S8,S16
+		
+		VMRS APSR_nzcv, FPSCR
+		BLE LOGICZEROOR
+		B LOGICLOGICONEOR
+LOGICZEROOR	MOV R2,#0
+		B NEXTOR
+
+LOGICLOGICONEOR		MOV R2,#1
+
+		B NEXTOR
+		
+NEXTOR	BL displayMsgor
+		CMP R6,#4
+		BLT NXTVECTOROR
+		B GATE_NOT
+		
+GATE_NOT MOV R6,#0
+NXTVECTORNOT	BL VECTORSNOT
+		ADD R6,R6,#1
+		VLDR.F32 S2,=0.5      ;w0
+		VLDR.F32 S10,=0.5	   ;w1	
+		VLDR.F32 S11,=-0.7	   ;w2
+		VLDR.F32 S13,=0.1	   ; 
+		VMOV.F32 S12,R0
+		VMOV.F32 S15,R1
+		VMOV.F32 S14,R3
+		VCVT.F32.S32 S12,S12		   ;x0 
+		VCVT.F32.S32 S15,S15		   ;x1 
+		VCVT.F32.S32 S14,S14		   ;x2 
+		VLDR.F32 S17,=1		   
+		
+		VMUL.F32 S2,S2,S12	   
+		VMUL.F32 S10,S10,S15   
+		VMUL.F32 S11,S11,S14   
+		VMUL.F32 S13,S13,S17   
+		
+		VADD.F32 S2,S2,S10	   
+		VADD.F32 S11,S11,S13   
+		
+		VADD.F32 S6,S2,S11	   
+		
+		BL SIGMOID_NEURON 
+
+		VCMP.F32 S8,S16
+		VMRS APSR_nzcv, FPSCR
+		BLE LOGICZERONOT
+		B LOGICLOGICONENOT
+LOGICZERONOT	MOV R2,#0
+		B NEXTNOT
+
+LOGICLOGICONENOT	MOV R2,#1
+
+		B NEXTNOT
+		
+NEXTNOT	BL displayMsgnot
+		CMP R6,#2
+		BLT NXTVECTORNOT
+		B GATE_NAND	
+		
+		
+
+
+LOGICZERO	MOV R2,#5
+
+LOGICLOGICONE		MOV R2,#5
+
 	
+GATE_NAND MOV R6,#0
+NXTVECTORNAND	BL VECTORS
+		ADD R6,R6,#1
+		VLDR.F32 S2,=0.6      ;w0
+		VLDR.F32 S10,=-0.8	   ;w1	
+		VLDR.F32 S11,=-0.8	   ;w2
+		VLDR.F32 S13,=0.3	   ; 
+		VMOV.F32 S12,R0
+		VMOV.F32 S15,R1
+		VMOV.F32 S14,R3
+		VCVT.F32.S32 S12,S12		   ;x0 
+		VCVT.F32.S32 S15,S15		   ;x1 
+		VCVT.F32.S32 S14,S14		   ;x2 
+		VLDR.F32 S17,=1		   
 		
-       
-		MOV R4, #1		;This is for choice of logic_
+		VMUL.F32 S2,S2,S12	   
+		VMUL.F32 S10,S10,S15   
+		VMUL.F32 S11,S11,S14   
+		VMUL.F32 S13,S13,S17   
 		
-		BAL choice
+		VADD.F32 S2,S2,S10	   
+		VADD.F32 S11,S11,S13   
 		
-choice					; switch-case equivalent
-		CMP R4,#0		; and operation 
+		VADD.F32 S6,S2,S11	   ;
 		
-		BEQ logic_and
+		BL SIGMOID_NEURON 
 		
-		CMP R4,#1		; or operation
-		
-		BEQ logic_or
-		
-		CMP R4,#2		; not operation
-		
-		BEQ logic_not
-		CMP R4,#3		; nand operation
-		
-		BEQ logic_nand
-		
-		CMP R4,#4		; nor operation
-		
-		BEQ logic_nor
-		
-		CMP R4,#5       ; xor operation 
-		
-		BEQ logic_xor
-		
-		CMP R4,#6		; xnor operation
-		
-		BEQ logic_xnor
-		
-		
-logic_and
-		VLDR.F32 S10,=-0.1
-		
-		VLDR.F32 S11,=0.2
-		
-		VLDR.F32 S12,=0.2
-		
-		VLDR.F32 S13,=-0.2
-		B	testvector
-		
-logic_or
-		VLDR.F32 S10,=-0.1
-		
-		VLDR.F32 S11,=0.7
-		
-		VLDR.F32 S12,=0.7
-		
-		VLDR.F32 S13,=-0.1
-		B	testvector
-		
-logic_not
-		VLDR.F32 S10,=0.5
-		
-		VLDR.F32 S11,=-0.7
-		
-		VLDR.F32 S12,=0
-		
-		VLDR.F32 S13,=0.1
-		
-		B	testvector
-		
-logic_nand
-		VLDR.F32 S10,=0.6
-		
-		VLDR.F32 S11,=-0.8
-		
-		VLDR.F32 S12,=-0.8
-		
-		VLDR.F32 S13,=0.3
-		
-		B	testvector
-		
-logic_nor
-		VLDR.F32 S10,=0.5
-		
-		VLDR.F32 S11,=-0.7
-		
-		VLDR.F32 S12,=-0.7
-		
-		VLDR.F32 S13,=0.1
-		B  	testvector
-		
-logic_xor		
-		VLDR.F32 S10,=-5
-		
-		VLDR.F32 S11,=20
-		
-		VLDR.F32 S12,=10
-		
-		VLDR.F32 S13,=1
-		B	testvector
+		VCMP.F32 S8,S16
+		VMRS APSR_nzcv, FPSCR
+		BLE LOGICZERONAND
+		B LOGICLOGICONENAND
+LOGICZERONAND	MOV R2,#0
+		B NEXTNAND
 
-logic_xnor
-		VLDR.F32 S10,=-5
-		
-		VLDR.F32 S11,=20
-		
-		VLDR.F32 S12,=10
-		
-		VLDR.F32 S13,=1
-		B	testvector
-		
-testvector
-		VLDR.F32 S14,=1
-		
-		VLDR.F32 S15,=0
-		
-		VLDR.F32 S16,=0
-		
-		B neuronoutput
-		
-neuronoutput
-		VMUL.F32 S17,S10,S14;
-		
-		VMUL.F32 S18,S11,S15;
-		
-		VMUL.F32 S19,S12,S16;
-		
-		VADD.F32 S20,S17,S18
-		
-		VADD.F32 S20,S20,S19
-		
-		VADD.F32 S20,S20,S13   
-		
-		VMOV.F32 S2, S20;
-		
-		B sig
-		
-		
+LOGICLOGICONENAND		MOV R2,#1
 
+		B NEXTNAND
+		
+NEXTNAND	BL displayMsgnand
+		CMP R6,#4
+		BLT NXTVECTORNAND
+		B GATE_NOR
 
+GATE_NOR MOV R6,#0
+NXTVECTORNOR	BL VECTORS
+		ADD R6,R6,#1
+		VLDR.F32 S2,=0.5      ;w0
+		VLDR.F32 S10,=-0.7	   ;w1	
+		VLDR.F32 S11,=-0.7	   ;w2
+		VLDR.F32 S13,=0.1	   
+		VMOV.F32 S12,R0
+		VMOV.F32 S15,R1
+		VMOV.F32 S14,R3
+		VCVT.F32.S32 S12,S12		   ;x0 
+		VCVT.F32.S32 S15,S15		   ;x1 
+		VCVT.F32.S32 S14,S14		   ;x2 
+		VLDR.F32 S17,=1		   
+		
+		VMUL.F32 S2,S2,S12	   
+		VMUL.F32 S10,S10,S15   
+		VMUL.F32 S11,S11,S14   
+		VMUL.F32 S13,S13,S17   
+		
+		VADD.F32 S2,S2,S10	   
+		VADD.F32 S11,S11,S13   
+		
+		VADD.F32 S6,S2,S11	   ;
+		
+		BL SIGMOID_NEURON 
+		
+		VCMP.F32 S8,S16
+		VMRS APSR_nzcv, FPSCR
+		BLE LOGICZERONOR
+		B LOGICLOGICONENOR
+LOGICZERONOR	MOV R2,#0
+		B NEXTNOR
 
-sig	   
+LOGICLOGICONENOR	MOV R2,#1
 
-			
-		MOV R0,#13; no of terms
+		B NEXTNOR
 		
-        MOV R1,#1;counter
-				
-	    LDR R3,= 0x00000001 ; sum temp
-		
-	    VMOV.F S0,R3 ;  final sum
-		
-	   
-	    VCVT.F32.U32 S0,S0
-	   
-	   
-	   
-	    LDR R8,= 0x00000001 ; temp var
-		
-	    VMOV.F S1,R8 ; 
-		
-		
-	    VCVT.F32.U32 S1,S1
-	
-       		
-		
-	   
-        LDR R6,= 0x00000001 ; temp for fact calc
-		
-        VMOV.F S6,R6 ; 
-		
-		
-        VCVT.F32.U32 S6,S6
-		
-
-
-
-L1      CMP R1,R0; compare counter and n
-
-        BLE L; check if counter < n 
-		
-        B final_result;
-	
-	
-L    VMUL.F32 S1,S1,S2; t = t*z
-
-		VMOV.F32 S3,S1;
-		
-        VMOV.F32 S5,R1; move from R1 to S5
-		
-        VCVT.F32.U32 S5, S5;
-		
-		VMUL.F32 S6,S6,S5
-		
-        VDIV.F32 S3,S3,S6;Divide t by factorial S6 and keep in S6
-		
-        VADD.F32 S0,S0,S3;exponential output e power z
-		
-		LDR R7,= 0x00000001 ; 
-		
-		VMOV.F S7,R7 ; 
-		
-		
-		VCVT.F32.U32 S7,S7
-		
-		VDIV.F32 S7,S7,S0; To calculate 1/e^z
-		
-		LDR R9,= 0x00000001 ; 
-		
-		VMOV.F S9,R9 ; 
-		
-		
-		VCVT.F32.U32 S9,S9;
-		
-		LDR R10,= 0x00000001 ; 
-		
-		VMOV.F S22,R10 ; 
-		
-		
-		VCVT.F32.U32 S22,S22;
-		
-		
-		VADD.F32 S21,S7,S9; To calculate 1+e^z
-		
-		VDIV.F32 S23,S22,S21; To calculate Sigmoid function value : 1/(1+e^z)
-		
-		
-		
-		ADD R1,R1,#1;increase counter 
-		
-        B L1;compare
-		B final_result	
-
-final_result
-		
-		VLDR.F32 S24, =0.5
-		
-		VCMP.F32 S23, S24
-		
-		VMRS APSR_NZCV, FPSCR
-		
-		MOVGT R0, #1
-		
-		MOVLT R0, #0
-		
-		BL printMsg
-		
+NEXTNOR	BL displayMsgnor
+		CMP R6,#4
+		BLT NXTVECTORNOR
 		B stop
 		
+
 stop    B stop
+
+
+
+VECTORS  PUSH {R9,LR}		
+		CMP R6,#0
+		BEQ VECTOR0
+		CMP R6,#1
+		BEQ VECTOR1
+		CMP R6,#2
+		BEQ VECTOR3
+		CMP R6,#3
+		BEQ VECTOR2
+
+VECTOR0    MOV R0,#1			
+		MOV R1,#0
+		MOV R3,#0
+		B B
+		
+VECTOR1    MOV R0,#1			
+		MOV R1,#0
+		MOV R3,#1
+		B B
+
+VECTOR3    MOV R0,#1			
+		MOV R1,#1
+		MOV R3,#0
+		B B
+
+VECTOR2    MOV R0,#1			
+		MOV R1,#1
+		MOV R3,#1
+		B B
+		
+B		SUB LR, #0x01
+		POP {R7,PC}
+		BX LR
+		
+VECTORSNOT  PUSH {R10,LR}	
+		CMP R6,#0
+		BEQ VECTORNOT0
+		CMP R6,#1
+		BEQ VECTORNOT1
+
+VECTORNOT0 MOV R0,#1			
+		MOV R1,#0
+		MOV R3,#0
+		B BNOT
+		
+VECTORNOT1 MOV R0,#1			
+		MOV R1,#0
+		MOV R3,#1
+		B BNOT
+		
+BNOT		SUB LR, #0x01
+		POP {R10,PC}
+		BX LR		
+
+
+SIGMOID_NEURON	PUSH {R7,LR}
+		BL EXPONENTIAL		
+		VLDR.F32 S7,=1		
+		VADD.F32 S9,S7,S0		;CALCULATE : 1 + e^-x
+		VDIV.F32 S8,S7,S9		;CALCULATE : 1/(1 + e^-x)
+		SUB LR, #0x01
+		POP {R7,PC}
+		BX LR
+		
+		
+
+EXPONENTIAL		PUSH {R4,LR}
+		VLDR.F32 S5,=-1			
+		VMUL.F32 S3,S6,S5		
+		MOV R8,#6 				
+        MOV R5,#1  				
+        VLDR.F32 S0,=1			
+        VLDR.F32 S1,=1			
+
+L    CMP R5,R8				
+        BLE L1				
+        B dec
+		
+dec	SUB LR, #0x01
+		POP {R4,PC}
+		BX LR
+
+L1      VMUL.F32 S1,S1,S3		
+        VMOV.F32 S4,R5			
+        VCVT.F32.S32 S4,S4;		
+        VDIV.F32 S1,S1,S4		
+        VADD.F32 S0,S0,S1		
+        ADD R5,R5,#1			
+        B L					
         ENDFUNC
         END
