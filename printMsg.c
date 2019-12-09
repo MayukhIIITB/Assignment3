@@ -1,17 +1,23 @@
 #include "stm32f4xx.h"
-#include <string.h>
+
 #include <stdio.h>
 
-void displayMsgand(const int a, const int b, const int c, const int d)
+#include <string.h>
+
+
+void displayMsgand(const int A, const int B, const int C, const int D)
 {
+	
 	 char Msg[100];
-	 char *ptr;
+	
+	 char *pointer;
 	
 	ITM_SendChar('\n');
 	ITM_SendChar('A');
 	ITM_SendChar('N');
 	ITM_SendChar('D');
 	ITM_SendChar('\n');
+	
 	
 	ITM_SendChar('X');
 	ITM_SendChar('0');
@@ -28,52 +34,52 @@ void displayMsgand(const int a, const int b, const int c, const int d)
 	ITM_SendChar('Y');
 	ITM_SendChar('\n');
 	
-	 //Printing the first parameter
-	 sprintf(Msg, "%x", a);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 
+	 sprintf(Msg, "%x", A);//PRINT X0
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 	
-	 sprintf(Msg, "%x", b);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", B);//PRINT X1
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 
-	 sprintf(Msg, "%x", c);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", C);//PRINT X2
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 
-	 sprintf(Msg, "%x", d);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", D);//PRINT OUTPUT LOGIC=Y
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
 	 }
 		ITM_SendChar('\n');
 
 }
 
-void displayMsgor(const int a, const int b, const int c, const int d)
+void displayMsgor(const int A, const int B, const int C, const int D)
 {
 	 char Msg[100];
-	 char *ptr;
+	 char *pointer;
 	
 	ITM_SendChar('\n');
 	ITM_SendChar('O');
@@ -95,52 +101,52 @@ void displayMsgor(const int a, const int b, const int c, const int d)
 	ITM_SendChar('Y');
 	ITM_SendChar('\n');
 	
-	 //Printing the first parameter
-	 sprintf(Msg, "%x", a);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 
+	 sprintf(Msg, "%x", A);//PRINT X0
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 	
-	 sprintf(Msg, "%x", b);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", B);//PRINT X1
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 
-	 sprintf(Msg, "%x", c);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", C);//PRINT X2
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 
-	 sprintf(Msg, "%x", d);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", D);//PRINT OUTPUT LOGIC=Y
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
 	 }
 		ITM_SendChar('\n');
 
 }
 
-void displayMsgnot(const int a, const int b, const int c, const int d)
+void displayMsgnot(const int A, const int B, const int C, const int D)
 {
 	 char Msg[100];
-	 char *ptr;
+	 char *pointer;
 	
 	ITM_SendChar('\n');
 	ITM_SendChar('N');
@@ -163,52 +169,52 @@ void displayMsgnot(const int a, const int b, const int c, const int d)
 	ITM_SendChar('Y');
 	ITM_SendChar('\n');
 	
-	 //Printing the first parameter
-	 sprintf(Msg, "%x", a);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 
+	 sprintf(Msg, "%x", A);//PRINT X0
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 	
-	 sprintf(Msg, "%x", b);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", B);//PRINT X1
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 
-	 sprintf(Msg, "%x", c);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", C);//PRINT X2
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 
-	 sprintf(Msg, "%x", d);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", D);//PRINT OUTPUT LOGIC=Y
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
 	 }
 		ITM_SendChar('\n');
 
 }
 
-void displayMsgnand(const int a, const int b, const int c, const int d)
+void displayMsgnand(const int A, const int B, const int C, const int D)
 {
 	 char Msg[100];
-	 char *ptr;
+	 char *pointer;
 	
 	ITM_SendChar('\n');
 	ITM_SendChar('N');
@@ -232,52 +238,53 @@ void displayMsgnand(const int a, const int b, const int c, const int d)
 	ITM_SendChar('Y');
 	ITM_SendChar('\n');
 	
-	 //Printing the first parameter
-	 sprintf(Msg, "%x", a);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 
+	 sprintf(Msg, "%x", A);//PRINT X0
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 	
-	 sprintf(Msg, "%x", b);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", B);//PRINT X1
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 
-	 sprintf(Msg, "%x", c);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", C);//PRINT X2
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 
-	 sprintf(Msg, "%x", d);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", D);//PRINT OUTPUT LOGIC=Y
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
 	 }
 		ITM_SendChar('\n');
 
 }
 
-void displayMsgnor(const int a, const int b, const int c, const int d)
+
+void displayMsgnor(const int A, const int B, const int C, const int D)
 {
 	 char Msg[100];
-	 char *ptr;
+	 char *pointer;
 	
 	ITM_SendChar('\n');
 	ITM_SendChar('N');
@@ -300,43 +307,43 @@ void displayMsgnor(const int a, const int b, const int c, const int d)
 	ITM_SendChar('Y');
 	ITM_SendChar('\n');
 	
-	 //Printing the first parameter
-	 sprintf(Msg, "%x", a);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 
+	 sprintf(Msg, "%x", A);//PRINT X0
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 	
-	 sprintf(Msg, "%x", b);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", B);//PRINT X1
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 
-	 sprintf(Msg, "%x", c);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", C);//PRINT X2
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
    }
 	 ITM_SendChar(' ');
 	 ITM_SendChar(' ');
 
-	 sprintf(Msg, "%x", d);
-	 ptr = Msg ;
-   while(*ptr != '\0')
+	 sprintf(Msg, "%x", D);//PRINT OUTPUT LOGIC=Y
+	 pointer = Msg ;
+   while(*pointer != '\0')
 	 {
-      ITM_SendChar(*ptr);
-      ++ptr;
+      ITM_SendChar(*pointer);
+      ++pointer;
 	 }
 		ITM_SendChar('\n');
 
